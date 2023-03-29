@@ -20,4 +20,8 @@ public interface TakeVisitor {
     default void take(PoisonedApple bonus) {
     }
 
+    // Key
+    default void take(Key bonus) {
+    }
+
 }
