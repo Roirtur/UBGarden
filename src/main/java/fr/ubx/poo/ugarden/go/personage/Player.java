@@ -68,7 +68,22 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     @Override
     public void take(Bee bonus) {
         // TODO
-        System.out.println("I am taking the heart, I should do something ...");
+        System.out.println("Ouch [TO DO]");
+    }
+    @Override
+    public void take(PoisonedApple bonus) {
+        // TODO
+        System.out.println("Yuck [TO DO]");
+    }
+    @Override
+    public void take(Apple bonus) {
+        // TODO
+        System.out.println("Yummy [TO DO]");
+    }
+    @Override
+    public void take(Key bonus) {
+        // TODO
+        System.out.println("I wonder what it's opening [TO DO]");
     }
 
     @Override

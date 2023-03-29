@@ -1,7 +1,7 @@
 package fr.ubx.poo.ugarden.game;
 
 import fr.ubx.poo.ugarden.go.bonus.*;
-import fr.ubx.poo.ugarden.go.decor.ground.Grass;
+import fr.ubx.poo.ugarden.go.decor.ground.*;
 import fr.ubx.poo.ugarden.go.decor.*;
 import fr.ubx.poo.ugarden.launcher.MapEntity;
 import fr.ubx.poo.ugarden.launcher.MapLevel;
@@ -39,6 +39,44 @@ public class Level implements Map {
                     case Heart: {
                         Decor grass = new Grass(position);
                         grass.setBonus(new Heart(position, grass));
+                        decors.put(position, grass);
+                        break;
+                    }
+                    case PoisonedApple: {
+                        Decor grass = new Grass(position);
+                        grass.setBonus(new PoisonedApple(position, grass));
+                        decors.put(position, grass);
+                        break;
+                    }
+                    case Land: {
+                        decors.put(position, new Land(position));
+                        break;
+                    }
+                    case Carrots:{
+                        decors.put(position, new Carrots(position));
+                        break;
+                    }
+                    case Flowers:{
+                        decors.put(position, new Flowers(position));
+                        break;
+                    }
+                    case Apple:{
+                        Decor grass = new Grass(position);
+                        grass.setBonus(new Apple(position, grass));
+                        decors.put(position, grass);
+                        break;
+                    }
+                    case Princess:{
+                        decors.put(position, new Princess(position));
+                        break;
+                    }
+                    case DoorNextClosed, DoorPrevOpened, DoorNextOpened:{
+                        decors.put(position, new Door(position));
+                        break;
+                    }
+                    case Bee:{
+                        Decor grass = new Grass(position);
+                        grass.setBonus(new Bee(position, grass));
                         decors.put(position, grass);
                         break;
                     }
