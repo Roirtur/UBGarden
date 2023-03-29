@@ -21,11 +21,12 @@ public class GameLauncherView extends BorderPane {
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
         MenuItem loadItem = new MenuItem("Load from file ...");
+        MenuItem defaultItemStart = new MenuItem("Load default start configuration");
         MenuItem defaultItem = new MenuItem("Load default configuration");
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+Q"));
         menuFile.getItems().addAll(
-                loadItem, defaultItem, new SeparatorMenuItem(),
+                loadItem, defaultItem, defaultItemStart, new SeparatorMenuItem(),
                 exitItem);
 
         menuBar.getMenus().addAll(menuFile);
@@ -49,7 +50,13 @@ public class GameLauncherView extends BorderPane {
         });
 
         defaultItem.setOnAction(e -> {
-            Game game = GameLauncher.getInstance().load();
+            Game game = GameLauncher.getInstance().loadDefault(0);
+            GameEngine engine = new GameEngine(game, stage);
+            engine.start();
+        });
+
+        defaultItemStart.setOnAction(e -> {
+            Game game = GameLauncher.getInstance().loadDefault(1);
             GameEngine engine = new GameEngine(game, stage);
             engine.start();
         });

@@ -41,13 +41,19 @@ public class GameLauncher {
         return new Configuration(playerLives, playerEnergy, energyBoost, playerInvincibilityDuration, beeMoveFrequency, energyRecoverDuration, diseaseDuration);
     }
 
-    public Game load() {
+    public Game loadDefault(int def) {
         Properties emptyConfig = new Properties();
         Configuration configuration = getConfiguration(emptyConfig);
         Position playerPosition = new Position(1,1,1);
         WorldLevels world = new WorldLevels(1);
         Game game = new Game(world, configuration, playerPosition);
-        Map level = new Level(game, 1, new MapLevelDefaultStart());
+        MapLevel levelMap = new MapLevelDefaultStart();
+        if (def == 1) {
+            levelMap = new MapLevelDefaultStart();
+        } else {
+            levelMap = new MapLevelDefault();
+        }
+        Map level = new Level(game, 1, levelMap);
         world.put(1, level);
         return game;
     }
