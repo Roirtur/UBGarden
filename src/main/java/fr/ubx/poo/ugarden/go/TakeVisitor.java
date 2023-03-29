@@ -8,8 +8,16 @@ public interface TakeVisitor {
     default void take(Heart bonus) {
     }
 
-    // HealthInc
+    // Bee
     default void take(Bee bonus) {
+    }
+
+    // Apple
+    default void take(Apple bonus) {
+    }
+
+    // PoisonedApple
+    default void take(PoisonedApple bonus) {
     }
 
 }
