@@ -64,6 +64,13 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         System.out.println("I am taking the heart, I should do something ...");
     }
 
+
+    @Override
+    public void take(Bee bonus) {
+        // TODO
+        System.out.println("I am taking the heart, I should do something ...");
+    }
+
     @Override
     public void doMove(Direction direction) {
         // This method is called only if the move is possible, do not check again

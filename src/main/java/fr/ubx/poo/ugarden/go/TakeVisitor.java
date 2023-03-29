@@ -8,4 +8,8 @@ public interface TakeVisitor {
     default void take(Heart bonus) {
     }
 
+    // HealthInc
+    default void take(Bee bonus) {
+    }
+
 }
