@@ -18,6 +18,6 @@ public class Land extends Ground{
     }
 
     @Override
-    public int energyConsumptionWalk() { return 1; }
+    public int energyConsumptionWalk() { return 2; }
 
 }
