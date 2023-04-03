@@ -1,9 +1,12 @@
 package fr.ubx.poo.ugarden.launcher;
 
 
+import fr.ubx.poo.ugarden.game.Position;
+
 import static fr.ubx.poo.ugarden.launcher.MapEntity.*;
 
 public class MapLevelDefaultStart extends MapLevel {
+
 
     private final MapEntity[][] level1 = {
             {Grass, Grass, Grass, Grass, Grass, Grass, Grass, Grass, Grass, Grass, Grass, Grass, Grass, Grass, Grass, Grass, Grass, Grass},
@@ -22,12 +25,8 @@ public class MapLevelDefaultStart extends MapLevel {
     public MapLevelDefaultStart() {
         super(width, height);
         for (int i = 0; i < width; i++)
-            for (int j = 0; j < height; j++) {
-                if (level1[j][i] == Player) {
-                    set(i, j, Grass);
-                } else {
-                    set(i, j, level1[j][i]);
-                }
-            }
-    }
+            for (int j = 0; j < height; j++)
+                set(i, j, level1[j][i]);    }
+
+
 }
