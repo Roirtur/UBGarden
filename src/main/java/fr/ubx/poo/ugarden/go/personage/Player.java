@@ -7,6 +7,7 @@ package fr.ubx.poo.ugarden.go.personage;
 import fr.ubx.poo.ugarden.engine.Timer;
 import fr.ubx.poo.ugarden.game.Direction;
 import fr.ubx.poo.ugarden.game.Game;
+import fr.ubx.poo.ugarden.game.Map;
 import fr.ubx.poo.ugarden.game.Position;
 import fr.ubx.poo.ugarden.go.GameObject;
 import fr.ubx.poo.ugarden.go.Movable;
@@ -14,6 +15,8 @@ import fr.ubx.poo.ugarden.go.TakeVisitor;
 import fr.ubx.poo.ugarden.go.WalkVisitor;
 import fr.ubx.poo.ugarden.go.decor.Decor;
 import fr.ubx.poo.ugarden.go.bonus.*;
+import fr.ubx.poo.ugarden.go.decor.Flowers;
+import fr.ubx.poo.ugarden.go.decor.Tree;
 
 public class Player extends GameObject implements Movable, TakeVisitor, WalkVisitor {
 
@@ -37,11 +40,6 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         moveRequested = true;
     }
 
-    @Override
-    public final boolean canMove(Direction direction) {
-        // TO UPDATE
-        return true;
-   }
 
     public void update(long now) {
         if (moveRequested) {
@@ -85,6 +83,14 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         // TODO
         System.out.println("I wonder what it's opening [TO DO]");
     }
+    @Override
+    public final boolean canMove(Direction direction) {
+        Position nextPos = direction.nextPosition(getPosition());
+        Map map = game.world().getGrid();
+        if (!map.inside(nextPos))
+            return false;
+        else return !(map.get(nextPos) instanceof Tree) && !(map.get(nextPos) instanceof Flowers);
+   }
 
     @Override
     public void doMove(Direction direction) {

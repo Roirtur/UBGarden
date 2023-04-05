@@ -43,20 +43,20 @@ public class GameLauncher {
 
     public Game loadDefault(int default_choice) {
         Properties emptyConfig = new Properties();
-        MapLevel mapLevel = new MapLevelDefaultStart();
-        Position playerPosition = mapLevel.getPlayerPosition();
+        MapLevel levelMap = new MapLevelDefaultStart();
+        if (default_choice == 1) {
+            levelMap = new MapLevelDefaultStart();
+        } else {
+            System.out.println("map 2");
+            levelMap = new MapLevelDefault();
+        }
+        Position playerPosition = levelMap.getPlayerPosition();
         if (playerPosition == null)
             throw new RuntimeException("Player not found");
         Configuration configuration = getConfiguration(emptyConfig);
         WorldLevels world = new WorldLevels(1);
         Game game = new Game(world, configuration, playerPosition);
-        MapLevel levelMap = new MapLevelDefaultStart();
-        if (default_choice == 1) {
-            levelMap = new MapLevelDefaultStart();
-        } else {
-            levelMap = new MapLevelDefault();
-        }
-        Map level = new Level(game, 1, mapLevel);
+        Map level = new Level(game, 1, levelMap);
         world.put(1, level);
         return game;
     }
