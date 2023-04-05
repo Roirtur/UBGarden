@@ -22,6 +22,13 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
 
     private Direction direction;
     private boolean moveRequested = false;
+    private int energy;
+    private int keys = 0;
+    private int diseaseLevel = 1;
+
+    public int getKeys() { return keys; }
+    public int getDiseaseLevel() { return diseaseLevel; }
+    public int getEnergy() { return energy; }
 
     private final int lives;
     public int getLives() {
@@ -54,6 +61,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         super(game, position);
         this.direction = Direction.DOWN;
         this.lives = game.configuration().playerLives();
+        this.energy = game.configuration().playerEnergy();
     }
 
     @Override

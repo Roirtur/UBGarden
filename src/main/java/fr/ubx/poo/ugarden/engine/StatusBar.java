@@ -72,10 +72,10 @@ public class StatusBar {
     }
 
     public void update(Game game) {
-        lives.setText("?");
-        keys.setText("?");
-        energy.setText("?");
-        diseaseLevel.setText("x?");
+        lives.setText(String.valueOf(game.getPlayer().getLives()));
+        keys.setText(String.valueOf(game.getPlayer().getKeys()));
+        energy.setText(String.valueOf(game.getPlayer().getEnergy()));
+        diseaseLevel.setText("x"+String.valueOf(game.getPlayer().getDiseaseLevel()));
     }
 
 }
