@@ -18,7 +18,6 @@ public enum MapEntity {
     DoorPrevOpened('<'),
     DoorNextOpened('>'),
     DoorNextClosed('D'),
-
     ;
 
     private final char code;

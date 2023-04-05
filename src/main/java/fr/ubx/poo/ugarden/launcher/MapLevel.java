@@ -2,8 +2,10 @@ package fr.ubx.poo.ugarden.launcher;
 
 import fr.ubx.poo.ugarden.game.Position;
 
-import static fr.ubx.poo.ugarden.launcher.MapEntity.Grass;
-import static fr.ubx.poo.ugarden.launcher.MapEntity.Player;
+import java.util.ArrayList;
+
+import static fr.ubx.poo.ugarden.launcher.MapEntity.*;
+import fr.ubx.poo.ugarden.go.bonus.Bee;
 
 public class MapLevel {
 
@@ -37,7 +39,7 @@ public class MapLevel {
 
     public Position getPlayerPosition() {
         for (int i = 0; i < width; i++)
-            for (int j = 0; j < height; j++)
+            for (int j = 0; j < height; j++) {
                 if (grid[j][i] == Player) {
                     if (playerPosition != null)
                         throw new RuntimeException("Multiple definition of player");
@@ -45,7 +47,19 @@ public class MapLevel {
                     // Player can be only on level 1
                     playerPosition = new Position(1, i, j);
                 }
+            }
         return playerPosition;
     }
 
+    public ArrayList<Position> getBeePositions() {
+        ArrayList<Position> beePositions = new ArrayList<Position>();
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++) {
+                if (grid[j][i] == Bee) {
+                    beePositions.add(new Position(1, i, j));;
+                    set(i, j, Grass);
+                }
+            }
+        return beePositions;
+    }
 }

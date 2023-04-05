@@ -1,6 +1,10 @@
 package fr.ubx.poo.ugarden.game;
 
+import fr.ubx.poo.ugarden.go.bonus.Bee;
+import fr.ubx.poo.ugarden.go.decor.ground.Grass;
 import fr.ubx.poo.ugarden.go.personage.Player;
+
+import java.util.ArrayList;
 
 
 public class Game {
@@ -16,12 +20,18 @@ public class Game {
 
     private boolean switchLevelRequested = false;
     private int switchLevel;
+    private final ArrayList<Bee> allBees = new ArrayList<Bee>();
 
-    public Game(World world, Configuration configuration, Position playerPosition) {
+    public Game(World world, Configuration configuration, Position playerPosition, ArrayList<Position> beePositions) {
         this.configuration = configuration;
         this.world = world;
         player = new Player(this, playerPosition);
+        for (Position position : beePositions) {
+            this.allBees.add(new Bee(this, position, new Grass(position)));
+        }
     }
+
+    public ArrayList<Bee> getBees() {return this.allBees;}
 
     public Player getPlayer() {
         return this.player;

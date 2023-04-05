@@ -6,6 +6,9 @@ package fr.ubx.poo.ugarden.engine;
 
 import fr.ubx.poo.ugarden.game.Direction;
 import fr.ubx.poo.ugarden.game.Game;
+import fr.ubx.poo.ugarden.game.Position;
+import fr.ubx.poo.ugarden.go.bonus.Bee;
+import fr.ubx.poo.ugarden.go.decor.ground.Grass;
 import fr.ubx.poo.ugarden.go.personage.Player;
 import fr.ubx.poo.ugarden.view.*;
 import javafx.animation.AnimationTimer;
@@ -77,6 +80,10 @@ public final class GameEngine {
         }
 
         sprites.add(new SpritePlayer(layer, player));
+        ArrayList<Bee> allBees = game.getBees();
+        for (Bee bee : allBees) {
+            sprites.add(SpriteFactory.create(layer, bee));
+        }
     }
 
     void buildAndSetGameLoop() {
@@ -154,6 +161,11 @@ public final class GameEngine {
 
     private void update(long now) {
         player.update(now);
+
+        ArrayList<Bee> bees = game.getBees();
+        for (Bee bee : bees) {
+            bee.update(now);
+        }
 
         if (player.getLives() == 0) {
             gameLoop.stop();

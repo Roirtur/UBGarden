@@ -1,6 +1,7 @@
 package fr.ubx.poo.ugarden.game;
 
 
+import fr.ubx.poo.ugarden.go.bonus.Bee;
 import fr.ubx.poo.ugarden.go.decor.Decor;
 
 import java.util.*;

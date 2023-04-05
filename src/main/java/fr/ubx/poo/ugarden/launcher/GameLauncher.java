@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class GameLauncher {
@@ -43,7 +44,7 @@ public class GameLauncher {
 
     public Game loadDefault(int default_choice) {
         Properties emptyConfig = new Properties();
-        MapLevel levelMap = new MapLevelDefaultStart();
+        MapLevel levelMap;
         if (default_choice == 1) {
             levelMap = new MapLevelDefaultStart();
         } else {
@@ -55,7 +56,9 @@ public class GameLauncher {
             throw new RuntimeException("Player not found");
         Configuration configuration = getConfiguration(emptyConfig);
         WorldLevels world = new WorldLevels(1);
-        Game game = new Game(world, configuration, playerPosition);
+
+        ArrayList<Position> beePositions = levelMap.getBeePositions();
+        Game game = new Game(world, configuration, playerPosition, beePositions);
         Map level = new Level(game, 1, levelMap);
         world.put(1, level);
         return game;
