@@ -42,8 +42,6 @@ public final class SpriteFactory {
         if (gameObject instanceof Land)
             return new Sprite(layer, factory.get(LAND), gameObject);
         // Temporary
-        if (gameObject instanceof Bee)
-            return new Sprite(layer, factory.get(BEE_DOWN), gameObject);
         if (gameObject instanceof Door)
             return new Sprite(layer, factory.get(DOOR_CLOSED), gameObject);
         //

@@ -20,6 +20,8 @@ public class Bee extends Bonus implements Movable {
     private Timer timer;
     private Game game;
 
+    public Direction getDirection() { return direction; }
+
     public Bee(Game game, Position position, Decor decor) {
         super(position, decor);
         this.game = game;

@@ -82,7 +82,7 @@ public final class GameEngine {
         sprites.add(new SpritePlayer(layer, player));
         ArrayList<Bee> allBees = game.getBees();
         for (Bee bee : allBees) {
-            sprites.add(SpriteFactory.create(layer, bee));
+            sprites.add(new SpriteBee(layer, bee));
         }
     }
 

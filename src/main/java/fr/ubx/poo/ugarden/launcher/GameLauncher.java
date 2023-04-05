@@ -48,7 +48,6 @@ public class GameLauncher {
         if (default_choice == 1) {
             levelMap = new MapLevelDefaultStart();
         } else {
-            System.out.println("map 2");
             levelMap = new MapLevelDefault();
         }
         Position playerPosition = levelMap.getPlayerPosition();
