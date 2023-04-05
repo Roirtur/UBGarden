@@ -17,6 +17,9 @@ import fr.ubx.poo.ugarden.go.decor.Decor;
 import fr.ubx.poo.ugarden.go.bonus.*;
 import fr.ubx.poo.ugarden.go.decor.Flowers;
 import fr.ubx.poo.ugarden.go.decor.Tree;
+import fr.ubx.poo.ugarden.go.decor.ground.Carrots;
+import fr.ubx.poo.ugarden.go.decor.ground.Grass;
+import fr.ubx.poo.ugarden.go.decor.ground.Land;
 
 public class Player extends GameObject implements Movable, TakeVisitor, WalkVisitor {
 
@@ -97,7 +100,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         Map map = game.world().getGrid();
         if (!map.inside(nextPos))
             return false;
-        else return !(map.get(nextPos) instanceof Tree) && !(map.get(nextPos) instanceof Flowers);
+        else return !(map.get(nextPos) instanceof Tree) && !(map.get(nextPos) instanceof Flowers) && (energy- loseEnergy() >= 0);
    }
 
     @Override
@@ -105,9 +108,20 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         // This method is called only if the move is possible, do not check again
         Position nextPos = direction.nextPosition(getPosition());
         Decor next = game.world().getGrid().get(nextPos);
+        energy -= loseEnergy();
         setPosition(nextPos);
         if (next != null)
             next.takenBy(this);
+    }
+
+    private int loseEnergy() {
+        Map map = game.world().getGrid();
+        if(map.get(getPosition()) instanceof Grass)
+            return getDiseaseLevel();
+        else if (map.get(getPosition()) instanceof Land)
+            return 2*getDiseaseLevel();
+        else
+            return 3*getDiseaseLevel();
     }
 
     @Override
