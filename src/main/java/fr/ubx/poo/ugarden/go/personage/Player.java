@@ -20,6 +20,8 @@ import fr.ubx.poo.ugarden.go.decor.Tree;
 import fr.ubx.poo.ugarden.go.decor.ground.Grass;
 import fr.ubx.poo.ugarden.go.decor.ground.Land;
 
+import java.util.ArrayList;
+
 public class Player extends GameObject implements Movable, TakeVisitor, WalkVisitor {
 
     private Direction direction;
@@ -27,8 +29,9 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     private int energy;
     private int keys = 0;
     private int diseaseLevel = 1;
-    private Timer timer;
+    private final Timer timer;
     private int lives;
+    private ArrayList<Timer> diseasesTimeSave = new ArrayList<>();
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -58,6 +61,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     }
 
     public void update(long now) {
+        checkDiseases(now);
         timer.update(now);
         if (moveRequested) {
             if (canMove(direction)) {
@@ -77,19 +81,22 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     @Override
     public void take(PoisonedApple bonus) {
         gainDisease();
+        Timer timer = new Timer(game.configuration().diseaseDuration());
+        timer.start();
+        diseasesTimeSave.add(timer);
         bonus.remove();
     }
     @Override
     public void take(Apple bonus) {
         gainEnergy(game.configuration().energyBoost());
         diseaseLevel = 1;
+        diseasesTimeSave.clear();
         bonus.remove();
     }
     @Override
     public void take(Key bonus) {
         gainKey();
         bonus.remove();
-        System.out.println("I wonder what it's opening [TO DO]");
     }
     @Override
     public final boolean canMove(Direction direction) {
@@ -147,6 +154,26 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
 
     private void gainDisease() {
         diseaseLevel += 1;
+    }
+    private void loseDisease() {
+        diseaseLevel -= 1;
+    }
+
+    private void checkDiseases(long now) {
+        if (diseasesTimeSave.isEmpty()) {
+            return;
+        }
+
+        ArrayList<Timer> toRemove = new ArrayList<>();
+        for (Timer timer : diseasesTimeSave) {
+            timer.update(now);
+            if (!timer.isRunning()) {
+                toRemove.add(timer);
+                loseDisease();
+            }
+        }
+
+        diseasesTimeSave.removeAll(toRemove);
     }
 
     @Override

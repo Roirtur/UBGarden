@@ -9,7 +9,7 @@ public class Timer {
     private long startTime;
     private boolean running = false;
     private boolean requested = false;
-    public double remaining;
+    private double remaining;
 
     // Set a timer for a duration in seconds
     public Timer(double duration) {
@@ -45,6 +45,10 @@ public class Timer {
         running = false;
         requested = true;
         start();
+    }
+
+    public double getTime() {
+        return remaining;
     }
 
     // Check if the timer is still running
