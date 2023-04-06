@@ -44,7 +44,7 @@ public class Bee extends Bonus implements Movable {
                 setModified(true);
                 doMove(nextDirection);
             }
-            timer.start();
+            timer.reset();
         }
     }
 

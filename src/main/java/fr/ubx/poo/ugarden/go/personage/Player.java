@@ -55,7 +55,6 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
             this.direction = direction;
             setModified(true);
         }
-        timer.start();
         moveRequested = true;
     }
 
@@ -65,9 +64,10 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
             if (canMove(direction)) {
                 doMove(direction);
             }
+            moveRequested = false;
+            timer.reset();
         }
-        gainEnergy();
-        moveRequested = false;
+        gainPassiveEnergy();
     }
 
     @Override
@@ -77,19 +77,15 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     }
 
     @Override
-    public void take(Bee bonus) {
-        // TODO
-        System.out.println("Ouch [TO DO]");
-    }
-    @Override
     public void take(PoisonedApple bonus) {
         // TODO
         System.out.println("Yuck [TO DO]");
     }
     @Override
     public void take(Apple bonus) {
-        // TODO
-        System.out.println("Yummy [TO DO]");
+        gainEnergy(game.configuration().energyBoost());
+        diseaseLevel = 1;
+        bonus.remove();
     }
     @Override
     public void take(Key bonus) {
@@ -126,11 +122,16 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
             return 3*getDiseaseLevel();
     }
 
-    private void gainEnergy() {
-        if (energy < 100 && !timer.isRunning()) {
-            energy += 1;
+    private void gainPassiveEnergy() {
+        if (!timer.isRunning()) {
+            gainEnergy(1);
             timer.start();
         }
+    }
+
+    private void gainEnergy(int value) {
+        int new_value = energy + value;
+        energy = Math.min(new_value, 100);
     }
 
     public void loseLife(int value) {
