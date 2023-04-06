@@ -29,7 +29,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     private int keys = 0;
     private int diseaseLevel = 1;
     private Timer timer;
-    private final int lives;
+    private int lives;
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -131,6 +131,14 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
             energy += 1;
             timer.start();
         }
+    }
+
+    public void loseLife(int value) {
+        lives -= value;
+    }
+
+    public void loseLife() {
+        loseLife(1);
     }
 
     @Override

@@ -123,6 +123,8 @@ public final class GameEngine {
         ArrayList<Bee> bees = game.getBees();
         for (Bee bee : bees) {
             if (player.getPosition().equals(bee.getPosition())) {
+                // bee dies
+                player.loseLife();
                 System.out.println("Ouch");
             }
         }
