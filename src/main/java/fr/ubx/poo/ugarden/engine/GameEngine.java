@@ -120,7 +120,12 @@ public final class GameEngine {
     }
 
     private void checkCollision(long now) {
-        // Check a collision between a bee and the player
+        ArrayList<Bee> bees = game.getBees();
+        for (Bee bee : bees) {
+            if (player.getPosition().equals(bee.getPosition())) {
+                System.out.println("Ouch");
+            }
+        }
     }
 
     private void processInput(long now) {
