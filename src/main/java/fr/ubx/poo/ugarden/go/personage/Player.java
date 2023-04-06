@@ -28,16 +28,24 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     private int energy;
     private int keys = 0;
     private int diseaseLevel = 1;
+    private Timer timer;
+    private final int lives;
+
+    public Player(Game game, Position position) {
+        super(game, position);
+        this.direction = Direction.DOWN;
+        this.lives = game.configuration().playerLives();
+        this.energy = game.configuration().playerEnergy();
+        this.timer = new Timer(game.configuration().energyRecoverDuration());
+        timer.start();
+    }
 
     public int getKeys() { return keys; }
     public int getDiseaseLevel() { return diseaseLevel; }
     public int getEnergy() { return energy; }
-
-    private final int lives;
     public int getLives() {
         return lives;
     }
-
     public Direction getDirection() {
         return direction;
     }
@@ -47,24 +55,19 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
             this.direction = direction;
             setModified(true);
         }
+        timer.start();
         moveRequested = true;
     }
 
-
     public void update(long now) {
+        timer.update(now);
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
             }
         }
+        gainEnergy();
         moveRequested = false;
-    }
-
-    public Player(Game game, Position position) {
-        super(game, position);
-        this.direction = Direction.DOWN;
-        this.lives = game.configuration().playerLives();
-        this.energy = game.configuration().playerEnergy();
     }
 
     @Override
@@ -122,6 +125,13 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
             return 2*getDiseaseLevel();
         else
             return 3*getDiseaseLevel();
+    }
+
+    private void gainEnergy() {
+        if (energy < 100 && !timer.isRunning()) {
+            energy += 1;
+            timer.start();
+        }
     }
 
     @Override

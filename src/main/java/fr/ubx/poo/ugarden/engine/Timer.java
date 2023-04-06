@@ -5,14 +5,14 @@
 package fr.ubx.poo.ugarden.engine;
 
 public class Timer {
-    private final long duration;
+    private final double duration;
     private long startTime;
     private boolean running = false;
     private boolean requested = false;
-    private long remaining;
+    private double remaining;
 
     // Set a timer for a duration in seconds
-    public Timer(long duration) {
+    public Timer(double duration) {
         this.duration = duration;
         remaining = duration;
     }

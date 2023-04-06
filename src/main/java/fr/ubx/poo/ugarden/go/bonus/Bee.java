@@ -26,7 +26,7 @@ public class Bee extends Bonus implements Movable {
         super(position, decor);
         this.game = game;
         this.direction = Direction.random();
-        this.timer = new Timer(game.configuration().beeMoveFrequency());
+        this.timer = new Timer(1/(double)game.configuration().beeMoveFrequency());
         this.timer.start();
     }
 
