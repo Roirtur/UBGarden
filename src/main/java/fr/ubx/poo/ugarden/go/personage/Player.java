@@ -72,8 +72,8 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
 
     @Override
     public void take(Heart bonus) {
-        // TODO
-        System.out.println("I am taking the heart, I should do something ...");
+        gainLife();
+        bonus.remove();
     }
 
     @Override
@@ -140,6 +140,13 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
 
     public void loseLife() {
         loseLife(1);
+    }
+
+    private void gainLife(int value) {
+        lives += value;
+    }
+    private void gainLife() {
+        gainLife(1);
     }
 
     @Override
