@@ -17,7 +17,6 @@ import fr.ubx.poo.ugarden.go.decor.Decor;
 import fr.ubx.poo.ugarden.go.bonus.*;
 import fr.ubx.poo.ugarden.go.decor.Flowers;
 import fr.ubx.poo.ugarden.go.decor.Tree;
-import fr.ubx.poo.ugarden.go.decor.ground.Carrots;
 import fr.ubx.poo.ugarden.go.decor.ground.Grass;
 import fr.ubx.poo.ugarden.go.decor.ground.Land;
 
@@ -75,11 +74,10 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         gainLife();
         bonus.remove();
     }
-
     @Override
     public void take(PoisonedApple bonus) {
-        // TODO
-        System.out.println("Yuck [TO DO]");
+        gainDisease();
+        bonus.remove();
     }
     @Override
     public void take(Apple bonus) {
@@ -89,7 +87,8 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     }
     @Override
     public void take(Key bonus) {
-        // TODO
+        gainKey();
+        bonus.remove();
         System.out.println("I wonder what it's opening [TO DO]");
     }
     @Override
@@ -134,19 +133,20 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         energy = Math.min(new_value, 100);
     }
 
-    public void loseLife(int value) {
-        lives -= value;
-    }
-
     public void loseLife() {
-        loseLife(1);
+        lives -= 1;
     }
 
-    private void gainLife(int value) {
-        lives += value;
-    }
     private void gainLife() {
-        gainLife(1);
+        lives += 1;
+    }
+
+    private void gainKey() {
+        keys += 1;
+    }
+
+    private void gainDisease() {
+        diseaseLevel += 1;
     }
 
     @Override
