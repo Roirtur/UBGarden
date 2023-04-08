@@ -1,6 +1,7 @@
 package fr.ubx.poo.ugarden.go;
 
 import fr.ubx.poo.ugarden.go.bonus.*;
+import fr.ubx.poo.ugarden.go.personage.Bee;
 
 public interface TakeVisitor {
 

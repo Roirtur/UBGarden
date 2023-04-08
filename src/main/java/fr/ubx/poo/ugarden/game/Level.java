@@ -74,16 +74,6 @@ public class Level implements Map {
                         decors.put(position, new Door(position));
                         break;
                     }
-                    /*
-                    case Bee:{
-                        Decor grass = new Grass(position);
-                        Bee new_bee = new Bee(game, position, grass);
-                        grass.setBonus(new_bee);
-                        decors.put(position, grass);
-                        bees.add(new_bee);
-                        break;
-                    }
-                    */
                     default:
                         throw new RuntimeException("EntityCode " + mapEntity.name() + " not processed");
                 }

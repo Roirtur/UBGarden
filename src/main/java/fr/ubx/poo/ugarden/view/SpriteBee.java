@@ -5,8 +5,7 @@
 package fr.ubx.poo.ugarden.view;
 
 import fr.ubx.poo.ugarden.game.Direction;
-import fr.ubx.poo.ugarden.go.bonus.Bee;
-import fr.ubx.poo.ugarden.go.personage.Player;
+import fr.ubx.poo.ugarden.go.personage.Bee;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;

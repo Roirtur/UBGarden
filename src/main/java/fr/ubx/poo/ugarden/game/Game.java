@@ -1,8 +1,9 @@
 package fr.ubx.poo.ugarden.game;
 
-import fr.ubx.poo.ugarden.go.bonus.Bee;
+import fr.ubx.poo.ugarden.go.personage.Bee;
 import fr.ubx.poo.ugarden.go.decor.ground.Grass;
 import fr.ubx.poo.ugarden.go.personage.Player;
+import fr.ubx.poo.ugarden.view.SpriteBee;
 
 import java.util.ArrayList;
 
@@ -27,11 +28,15 @@ public class Game {
         this.world = world;
         player = new Player(this, playerPosition);
         for (Position position : beePositions) {
-            this.allBees.add(new Bee(this, position, new Grass(position)));
+            this.allBees.add(new Bee(this, position));
         }
     }
 
     public ArrayList<Bee> getBees() {return this.allBees;}
+
+    public void deleteBee(ArrayList<Bee> bees) {
+        allBees.removeAll(bees);
+    }
 
     public Player getPlayer() {
         return this.player;

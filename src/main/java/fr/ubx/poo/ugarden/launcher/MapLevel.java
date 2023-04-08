@@ -5,7 +5,6 @@ import fr.ubx.poo.ugarden.game.Position;
 import java.util.ArrayList;
 
 import static fr.ubx.poo.ugarden.launcher.MapEntity.*;
-import fr.ubx.poo.ugarden.go.bonus.Bee;
 
 public class MapLevel {
 

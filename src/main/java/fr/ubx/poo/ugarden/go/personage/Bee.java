@@ -1,4 +1,4 @@
-package fr.ubx.poo.ugarden.go.bonus;
+package fr.ubx.poo.ugarden.go.personage;
 
 import fr.ubx.poo.ugarden.engine.Timer;
 import fr.ubx.poo.ugarden.game.Direction;
@@ -9,11 +9,13 @@ import fr.ubx.poo.ugarden.go.GameObject;
 import fr.ubx.poo.ugarden.go.Movable;
 import fr.ubx.poo.ugarden.go.Takeable;
 import fr.ubx.poo.ugarden.go.Walkable;
+import fr.ubx.poo.ugarden.go.bonus.Bonus;
 import fr.ubx.poo.ugarden.go.decor.Decor;
 import fr.ubx.poo.ugarden.go.decor.Tree;
 import fr.ubx.poo.ugarden.go.personage.Player;
+import fr.ubx.poo.ugarden.view.SpriteBee;
 
-public class Bee extends Bonus implements Movable {
+public class Bee extends GameObject implements Movable, Takeable {
 
     private boolean canMove;
     private Direction direction;
@@ -22,8 +24,8 @@ public class Bee extends Bonus implements Movable {
 
     public Direction getDirection() { return direction; }
 
-    public Bee(Game game, Position position, Decor decor) {
-        super(position, decor);
+    public Bee(Game game, Position position) {
+        super(position);
         this.game = game;
         this.direction = Direction.random();
         this.timer = new Timer(1/(double)game.configuration().beeMoveFrequency());
@@ -31,8 +33,8 @@ public class Bee extends Bonus implements Movable {
     }
 
     @Override
-    public void takenBy(Player player) {
-        player.take(this);
+    public void remove() {
+        super.remove();
     }
 
     public void update(long now) {
