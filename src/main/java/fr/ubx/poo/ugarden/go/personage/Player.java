@@ -13,12 +13,12 @@ import fr.ubx.poo.ugarden.go.GameObject;
 import fr.ubx.poo.ugarden.go.Movable;
 import fr.ubx.poo.ugarden.go.TakeVisitor;
 import fr.ubx.poo.ugarden.go.WalkVisitor;
-import fr.ubx.poo.ugarden.go.decor.Decor;
+import fr.ubx.poo.ugarden.go.decor.*;
 import fr.ubx.poo.ugarden.go.bonus.*;
-import fr.ubx.poo.ugarden.go.decor.Flowers;
-import fr.ubx.poo.ugarden.go.decor.Tree;
 import fr.ubx.poo.ugarden.go.decor.ground.Grass;
 import fr.ubx.poo.ugarden.go.decor.ground.Land;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -109,7 +109,26 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         if (!map.inside(nextPos))
             return false;
         else return !(map.get(nextPos) instanceof Tree) && !(map.get(nextPos) instanceof Flowers) && (energy- loseEnergy() >= 0);
-   }
+    }
+
+    public boolean isOnPrincess() {
+        Map map = game.world().getGrid();
+        return (map.get(getPosition()) instanceof Princess);
+    }
+
+    public boolean isOnDoorWithKey() {
+        Map map = game.world().getGrid();
+        return (map.get(getPosition()) instanceof Door) && getKeys() > 0;
+    }
+
+    private void showVictory() {
+        Text text = new Text("Victory");
+        text.getStyleClass().add("message");
+        VBox scene = new VBox();
+        scene.getChildren().add(text);
+        scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
+        scene.getStyleClass().add("message");
+    }
 
     @Override
     public void doMove(Direction direction) {
@@ -154,6 +173,9 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
 
     private void gainKey() {
         keys += 1;
+    }
+    private void loseKey() {
+        keys -= 1;
     }
 
     private void gainDisease() {

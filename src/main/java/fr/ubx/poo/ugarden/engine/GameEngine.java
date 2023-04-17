@@ -186,6 +186,10 @@ public final class GameEngine {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
         }
+        if (player.isOnPrincess()) {
+            gameLoop.stop();
+            showMessage("Victoire!", Color.RED);
+        }
 
     }
 
