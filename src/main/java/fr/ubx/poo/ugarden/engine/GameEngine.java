@@ -65,7 +65,6 @@ public final class GameEngine {
         statusBar = new StatusBar(root, sceneWidth, sceneHeight);
 
         // Create sprites
-        int currentLevel = game.world().currentLevel();
 
         for (var decor : game.world().getGrid().values()) {
             sprites.add(SpriteFactory.create(layer, decor));
@@ -186,9 +185,12 @@ public final class GameEngine {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
         }
-        if (player.isOnPrincess()) {
+        else if (player.isOnPrincess()) {
             gameLoop.stop();
             showMessage("Victoire!", Color.RED);
+        }
+        else if (player.isOnDoorWithKey()) {
+            player.loseKey();
         }
 
     }

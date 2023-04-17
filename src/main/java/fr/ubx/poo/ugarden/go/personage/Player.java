@@ -174,7 +174,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     private void gainKey() {
         keys += 1;
     }
-    private void loseKey() {
+    public void loseKey() {
         keys -= 1;
     }
 

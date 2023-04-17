@@ -56,7 +56,7 @@ public class GameLauncher {
         Configuration configuration = getConfiguration(emptyConfig);
         WorldLevels world = new WorldLevels(1);
 
-        ArrayList<Position> beePositions = levelMap.getBeePositions();
+        ArrayList<Position> beePositions = levelMap.getBeePositions(world.currentLevel());
         Game game = new Game(world, configuration, playerPosition, beePositions);
         Map level = new Level(game, 1, levelMap);
         world.put(1, level);
