@@ -74,6 +74,12 @@ public class Level implements Map {
                         decors.put(position, new Door(position));
                         break;
                     }
+                    case Key: {
+                        Decor grass = new Grass(position);
+                        grass.setBonus(new Key(position, grass));
+                        decors.put(position, grass);
+                        break;
+                    }
                     default:
                         throw new RuntimeException("EntityCode " + mapEntity.name() + " not processed");
                 }
