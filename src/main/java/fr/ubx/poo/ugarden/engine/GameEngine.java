@@ -128,8 +128,9 @@ public final class GameEngine {
         ArrayList<Bee> bees = game.getBees();
         ArrayList<Bee> removeBees = new ArrayList<>();
         for (Bee bee : bees) {
-            if (player.getPosition().equals(bee.getPosition())) {
+            if (!player.getInvincible() && player.getPosition().equals(bee.getPosition())) {
                 player.loseLife();
+                player.setInvincible();
                 // Bee dies
                 removeBees.add(bee);
             }

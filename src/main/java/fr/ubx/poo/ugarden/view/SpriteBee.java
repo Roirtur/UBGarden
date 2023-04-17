@@ -15,7 +15,6 @@ public class SpriteBee extends Sprite {
 
     public SpriteBee(Pane layer, Bee bee) {
         super(layer, null, bee);
-        // effect.setBrightness(0.5);
         updateImage();
     }
 

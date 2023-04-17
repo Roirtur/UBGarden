@@ -32,6 +32,8 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     private final Timer timer;
     private int lives;
     private ArrayList<Timer> diseasesTimeSave = new ArrayList<>();
+    private boolean isInvincible;
+    private Timer inivncibilityTimer;
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -39,6 +41,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         this.lives = game.configuration().playerLives();
         this.energy = game.configuration().playerEnergy();
         this.timer = new Timer(game.configuration().energyRecoverDuration());
+        this.inivncibilityTimer = new Timer(game.configuration().playerInvincibilityDuration());
         timer.start();
     }
 
@@ -61,8 +64,9 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     }
 
     public void update(long now) {
-        checkDiseases(now);
         timer.update(now);
+        checkDiseases(now);
+        checkInvincibility(now);
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
@@ -174,6 +178,26 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         }
 
         diseasesTimeSave.removeAll(toRemove);
+    }
+
+    public void setInvincible() {
+        isInvincible = true;
+        inivncibilityTimer.start();
+    }
+
+    public boolean getInvincible() {
+        return isInvincible;
+    }
+
+    private void checkInvincibility(long now) {
+        if (isInvincible) {
+            if (inivncibilityTimer.isRunning()) {
+                inivncibilityTimer.update(now);
+            } else {
+                isInvincible = false;
+                setModified(true);
+            }
+        }
     }
 
     @Override

@@ -15,7 +15,6 @@ public class SpritePlayer extends Sprite {
 
     public SpritePlayer(Pane layer, Player player) {
         super(layer, null, player);
-        // effect.setBrightness(0.5);
         updateImage();
     }
 
@@ -23,7 +22,13 @@ public class SpritePlayer extends Sprite {
     public void updateImage() {
         Player player = (Player) getGameObject();
         Image image = getImage(player.getDirection());
-        setImage(image);
+        if (player.getInvincible()) {
+            effect.setBrightness(0.5);
+            effect.setSaturation(6);
+            setImage(image, effect);
+        } else {
+            setImage(image);
+        }
     }
 
     private Image getImage(Direction direction) {
