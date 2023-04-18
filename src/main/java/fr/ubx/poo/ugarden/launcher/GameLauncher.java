@@ -2,14 +2,12 @@ package fr.ubx.poo.ugarden.launcher;
 
 import fr.ubx.poo.ugarden.game.*;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
 public class GameLauncher {
+    final char EOL = 'x';
 
     private static class LoadSingleton {
         static final GameLauncher INSTANCE = new GameLauncher();
@@ -59,6 +57,77 @@ public class GameLauncher {
         ArrayList<Position> beePositions = levelMap.getBeePositions(world.currentLevel());
         Game game = new Game(world, configuration, playerPosition, beePositions);
         Map level = new Level(game, 1, levelMap);
+        world.put(1, level);
+        return game;
+    }
+
+    public Game loadFile(File file) {
+        boolean compression;
+        int nblevels;
+        ArrayList<String> levels = new ArrayList<String>();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String ligne;
+
+            while ((ligne = br.readLine()) != null) {
+                if (!ligne.contains("=")) {
+                    continue; // ignore la ligne qui ne contient pas "="
+                }
+
+                String[] variableValeur = ligne.split(" = ");
+                variableValeur.toString();
+                String variable = variableValeur[0];
+                String valeur = variableValeur[1];
+                switch(variable) {
+                    case "compression":
+                        compression = Boolean.valueOf(valeur);
+                        System.out.println("Compression : " + compression);
+                        break;
+                    case "levels":
+                        nblevels = Integer.parseInt(valeur);
+                        System.out.println("Nombre de niveaux : " + levels);
+                        break;
+                    case "level1":
+                        levels.add(valeur);
+                        System.out.println("Niveau 1 : " + valeur);
+                        break;
+                    case "level2":
+                        levels.add(valeur);
+                        System.out.println("Niveau 2 : " + valeur);
+                        break;
+                    case "playerLives":
+                        int playerLives = Integer.parseInt(valeur);
+                        System.out.println("Vies du joueur : " + playerLives);
+                        break;
+                    case "beeMoveFrequency":
+                        int beeMoveFrequency = Integer.parseInt(valeur.substring(2), 16);
+                        System.out.println("Fréquence de mouvement de l'abeille : " + beeMoveFrequency);
+                        break;
+                    default:
+                        System.out.println("Variable inconnue : " + variable);
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        String string = levels.get(0);
+        String[] lines = string.split(String.valueOf(EOL));
+        int width = lines[0].length();
+        int height = lines.length;
+
+        Properties emptyConfig = new Properties();
+        ArrayList<MapLevel> levelMap = new ArrayList<MapLevel>();
+        levelMap.add(new MapLevelString(lines, width, height));
+
+        Position playerPosition = levelMap.get(0).getPlayerPosition();
+        if (playerPosition == null)
+            throw new RuntimeException("Player not found");
+        Configuration configuration = getConfiguration(emptyConfig);
+        WorldLevels world = new WorldLevels(1);
+
+        ArrayList<Position> beePositions = levelMap.get(0).getBeePositions(world.currentLevel());
+        Game game = new Game(world, configuration, playerPosition, beePositions);
+        Map level = new Level(game, 1, levelMap.get(0));
         world.put(1, level);
         return game;
     }
