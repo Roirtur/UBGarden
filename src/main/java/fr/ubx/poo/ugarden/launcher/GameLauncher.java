@@ -62,7 +62,7 @@ public class GameLauncher {
     }
 
     public Game loadFile(File file) {
-        boolean compression;
+        boolean compression = false;
         int nblevels = 0;
         ArrayList<String> levels = new ArrayList<String>();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -99,7 +99,7 @@ public class GameLauncher {
                         System.out.println("Vies du joueur : " + playerLives);
                         break;
                     case "beeMoveFrequency":
-                        int beeMoveFrequency = Integer.parseInt(valeur.substring(2), 16);
+                        int beeMoveFrequency = Integer.parseInt(valeur);
                         System.out.println("Fréquence de mouvement de l'abeille : " + beeMoveFrequency);
                         break;
                     default:
@@ -116,9 +116,22 @@ public class GameLauncher {
         for (String level : levels) {
             String string = level;
             String[] lines = string.split(String.valueOf(EOL));
-            int width = lines[0].length();
-            int height = lines.length;
-            levelMap.add(new MapLevelString(lines, width, height));
+            if (!compression) {
+                int width = lines[0].length();
+                int height = lines.length;
+                levelMap.add(new MapLevelString(lines, width, height));
+            } else {
+                int width = 0;
+                for (int i = 0; i < lines[0].length(); i++) {
+                    if (Character.isDigit(lines[0].charAt(i))) {
+                        width += Character.getNumericValue(lines[0].charAt(i)) - 1;
+                    }
+                    else width++;
+                }
+                int height = lines.length;
+                levelMap.add(new MapLevelStringRLE(lines, width, height));
+            }
+
         }
 
 
