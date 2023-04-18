@@ -80,6 +80,9 @@ public class Level implements Map {
                         decors.put(position, grass);
                         break;
                     }
+                    case Bee: {
+                        break;
+                    }
                     default:
                         throw new RuntimeException("EntityCode " + mapEntity.name() + " not processed");
                 }

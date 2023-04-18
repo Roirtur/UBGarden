@@ -63,7 +63,7 @@ public class GameLauncher {
 
     public Game loadFile(File file) {
         boolean compression;
-        int nblevels;
+        int nblevels = 0;
         ArrayList<String> levels = new ArrayList<String>();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String ligne;
@@ -110,25 +110,29 @@ public class GameLauncher {
             ex.printStackTrace();
         }
 
-        String string = levels.get(0);
-        String[] lines = string.split(String.valueOf(EOL));
-        int width = lines[0].length();
-        int height = lines.length;
-
         Properties emptyConfig = new Properties();
         ArrayList<MapLevel> levelMap = new ArrayList<MapLevel>();
-        levelMap.add(new MapLevelString(lines, width, height));
+
+        for (String level : levels) {
+            String string = level;
+            String[] lines = string.split(String.valueOf(EOL));
+            int width = lines[0].length();
+            int height = lines.length;
+            levelMap.add(new MapLevelString(lines, width, height));
+        }
+
 
         Position playerPosition = levelMap.get(0).getPlayerPosition();
         if (playerPosition == null)
             throw new RuntimeException("Player not found");
         Configuration configuration = getConfiguration(emptyConfig);
-        WorldLevels world = new WorldLevels(1);
+        WorldLevels world = new WorldLevels(nblevels);
 
         ArrayList<Position> beePositions = levelMap.get(0).getBeePositions(world.currentLevel());
         Game game = new Game(world, configuration, playerPosition, beePositions);
-        Map level = new Level(game, 1, levelMap.get(0));
-        world.put(1, level);
+        for (int i = 0; i < nblevels; i++) {
+            world.put(i+1, new Level(game, i+1, levelMap.get(i)));
+        }
         return game;
     }
 
