@@ -2,7 +2,6 @@ package fr.ubx.poo.ugarden.view;
 
 import fr.ubx.poo.ugarden.game.Direction;
 import fr.ubx.poo.ugarden.game.State;
-import fr.ubx.poo.ugarden.launcher.GameLauncher;
 import javafx.scene.image.Image;
 
 import java.util.Hashtable;

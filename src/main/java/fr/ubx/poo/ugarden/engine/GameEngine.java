@@ -206,7 +206,6 @@ public final class GameEngine {
             if (!door.isOpen()) {
                 door.setOpen();
                 player.loseKey();
-                System.out.println("Door opened");
             }
         }
         else if (player.isOnOpenedDoor()) {

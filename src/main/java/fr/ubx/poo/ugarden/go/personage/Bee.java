@@ -8,12 +8,8 @@ import fr.ubx.poo.ugarden.game.Position;
 import fr.ubx.poo.ugarden.go.GameObject;
 import fr.ubx.poo.ugarden.go.Movable;
 import fr.ubx.poo.ugarden.go.Takeable;
-import fr.ubx.poo.ugarden.go.Walkable;
-import fr.ubx.poo.ugarden.go.bonus.Bonus;
 import fr.ubx.poo.ugarden.go.decor.Decor;
 import fr.ubx.poo.ugarden.go.decor.Tree;
-import fr.ubx.poo.ugarden.go.personage.Player;
-import fr.ubx.poo.ugarden.view.SpriteBee;
 
 public class Bee extends GameObject implements Movable, Takeable {
 

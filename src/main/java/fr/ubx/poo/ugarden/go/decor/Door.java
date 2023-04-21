@@ -12,7 +12,6 @@ public class Door extends Decor {
     public void setOpen() {
         state = State.OPENED;
         setModified(true);
-        System.out.println("Door is open");
     }
     public State getState() { return state; }
     public Door(Position position) {

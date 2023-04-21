@@ -2,9 +2,7 @@ package fr.ubx.poo.ugarden.game;
 
 import fr.ubx.poo.ugarden.go.decor.Door;
 import fr.ubx.poo.ugarden.go.personage.Bee;
-import fr.ubx.poo.ugarden.go.decor.ground.Grass;
 import fr.ubx.poo.ugarden.go.personage.Player;
-import fr.ubx.poo.ugarden.view.SpriteBee;
 
 import java.util.ArrayList;
 
