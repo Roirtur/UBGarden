@@ -118,9 +118,13 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
 
     public boolean isOnDoorWithKey() {
         Map map = game.world().getGrid();
-        return (map.get(getPosition()) instanceof Door) && getKeys() > 0;
+        return (map.get(getPosition()) instanceof Door) && getKeys() > 0 && !(((Door) map.get(getPosition())).isOpen());
     }
 
+    public boolean isOnOpenedDoor() {
+        Map map = game.world().getGrid();
+        return ((map.get(getPosition()) instanceof Door) && ((Door) map.get(getPosition())).isOpen());
+    }
     private void showVictory() {
         Text text = new Text("Victory");
         text.getStyleClass().add("message");

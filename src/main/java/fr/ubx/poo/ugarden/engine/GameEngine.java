@@ -6,6 +6,7 @@ package fr.ubx.poo.ugarden.engine;
 
 import fr.ubx.poo.ugarden.game.Direction;
 import fr.ubx.poo.ugarden.game.Game;
+import fr.ubx.poo.ugarden.go.decor.Door;
 import fr.ubx.poo.ugarden.go.personage.Bee;
 import fr.ubx.poo.ugarden.go.personage.Player;
 import fr.ubx.poo.ugarden.view.*;
@@ -109,6 +110,7 @@ public final class GameEngine {
             // Find the new level to switch to
             // clear all sprites
             // change the current level
+            game.world().setCurrentLevel(game.world().currentLevel() + 1);
             // Find the position of the door to reach
             // Set the position of the player
             // stage.close();
@@ -135,6 +137,16 @@ public final class GameEngine {
             }
         }
         deleteBee(removeBees);
+    }
+
+    private Door getDoorCollision() {
+        ArrayList<Door> doors = game.getDoors();
+        for (Door door : doors) {
+            if (player.getPosition().equals(door.getPosition())) {
+                return door;
+            }
+        }
+        return null;
     }
 
     private void processInput(long now) {
@@ -190,7 +202,15 @@ public final class GameEngine {
             showMessage("Victoire!", Color.RED);
         }
         else if (player.isOnDoorWithKey()) {
-            player.loseKey();
+            Door door = getDoorCollision();
+            if (!door.isOpen()) {
+                door.setOpen();
+                player.loseKey();
+                System.out.println("Door opened");
+            }
+        }
+        else if (player.isOnOpenedDoor()) {
+            //game.requestSwitchLevel(game.world().currentLevel() + 1);
         }
 
     }

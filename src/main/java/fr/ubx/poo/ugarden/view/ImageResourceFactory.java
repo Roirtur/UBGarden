@@ -1,6 +1,7 @@
 package fr.ubx.poo.ugarden.view;
 
 import fr.ubx.poo.ugarden.game.Direction;
+import fr.ubx.poo.ugarden.game.State;
 import fr.ubx.poo.ugarden.launcher.GameLauncher;
 import javafx.scene.image.Image;
 
@@ -63,5 +64,7 @@ public class ImageResourceFactory {
         return get(ImageResource.valueOf("BEE_" + direction));
     }
 
-
+    public Image getDoor(State state) {
+        return get(ImageResource.valueOf("DOOR_" + state));
+    }
 }

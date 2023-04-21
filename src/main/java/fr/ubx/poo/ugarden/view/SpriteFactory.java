@@ -41,10 +41,8 @@ public final class SpriteFactory {
             return new Sprite(layer, factory.get(KEY), gameObject);
         if (gameObject instanceof Land)
             return new Sprite(layer, factory.get(LAND), gameObject);
-        // Temporary
         if (gameObject instanceof Door)
-            return new Sprite(layer, factory.get(DOOR_CLOSED), gameObject);
-        //
+            return new SpriteDoor(layer, (Door)gameObject);
         throw new RuntimeException("Unsupported sprite for decor " + gameObject);
     }
 }
