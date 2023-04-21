@@ -55,8 +55,7 @@ public class MapLevel {
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++) {
                 if (grid[j][i] == Bee) {
-                    beePositions.add(new Position(level, i, j));;
-                    set(i, j, Grass);
+                    beePositions.add(new Position(level, i, j));
                 }
             }
         return beePositions;

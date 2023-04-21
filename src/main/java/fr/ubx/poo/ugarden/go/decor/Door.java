@@ -14,7 +14,8 @@ public class Door extends Decor {
         setModified(true);
     }
     public State getState() { return state; }
-    public Door(Position position) {
+    public Door(Position position, State state) {
         super(position);
+        this.state = state;
     }
 }

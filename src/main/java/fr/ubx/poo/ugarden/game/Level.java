@@ -70,8 +70,12 @@ public class Level implements Map {
                         decors.put(position, new Princess(position));
                         break;
                     }
-                    case DoorNextClosed, DoorPrevOpened, DoorNextOpened:{
-                        decors.put(position, new Door(position));
+                    case DoorNextClosed, DoorNextOpened:{
+                        decors.put(position, new Door(position, State.CLOSED));
+                        break;
+                    }
+                    case DoorPrevOpened:{
+                        decors.put(position, new Door(position, State.OPENED));
                         break;
                     }
                     case Key: {
@@ -81,6 +85,7 @@ public class Level implements Map {
                         break;
                     }
                     case Bee: {
+                        decors.put(position, new Grass(position));
                         break;
                     }
                     default:

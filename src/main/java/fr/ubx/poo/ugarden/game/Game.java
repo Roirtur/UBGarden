@@ -5,6 +5,7 @@ import fr.ubx.poo.ugarden.go.personage.Bee;
 import fr.ubx.poo.ugarden.go.personage.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class Game {
@@ -21,17 +22,24 @@ public class Game {
     private boolean switchLevelRequested = false;
     private int switchLevel;
     private final ArrayList<Bee> allBees = new ArrayList<Bee>();
+    private final ArrayList<ArrayList<Position>> beesPositions = new ArrayList<>();
 
-    public Game(World world, Configuration configuration, Position playerPosition, ArrayList<Position> beePositions) {
+    public Game(World world, Configuration configuration, Position playerPosition, ArrayList<Position>[] beePositions) {
         this.configuration = configuration;
         this.world = world;
         player = new Player(this, playerPosition);
-        for (Position position : beePositions) {
-            this.allBees.add(new Bee(this, position));
-        }
+
+        Collections.addAll(this.beesPositions, beePositions);
+        loadBees();
     }
 
     public ArrayList<Bee> getBees() {return this.allBees;}
+
+    public void loadBees() {
+        for (Position position : beesPositions.get(world.currentLevel()-1)) {
+            this.allBees.add(new Bee(this, position));
+        }
+    }
 
     public void deleteBee(ArrayList<Bee> bees) {
         allBees.removeAll(bees);

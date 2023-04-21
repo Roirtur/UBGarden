@@ -54,7 +54,9 @@ public class GameLauncher {
         Configuration configuration = getConfiguration(emptyConfig);
         WorldLevels world = new WorldLevels(1);
 
-        ArrayList<Position> beePositions = levelMap.getBeePositions(world.currentLevel());
+        ArrayList<Position>[] beePositions = new ArrayList[1];
+        beePositions[0] = levelMap.getBeePositions(world.currentLevel());
+
         Game game = new Game(world, configuration, playerPosition, beePositions);
         Map level = new Level(game, 1, levelMap);
         world.put(1, level);
@@ -141,7 +143,11 @@ public class GameLauncher {
         Configuration configuration = getConfiguration(emptyConfig);
         WorldLevels world = new WorldLevels(nblevels);
 
-        ArrayList<Position> beePositions = levelMap.get(0).getBeePositions(world.currentLevel());
+        ArrayList<Position>[] beePositions = new ArrayList[nblevels];
+        for (int i = 0; i < nblevels; i++) {
+            beePositions[i] = levelMap.get(i).getBeePositions(i+1);
+        }
+
         Game game = new Game(world, configuration, playerPosition, beePositions);
         for (int i = 0; i < nblevels; i++) {
             world.put(i+1, new Level(game, i+1, levelMap.get(i)));

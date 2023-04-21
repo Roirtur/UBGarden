@@ -108,13 +108,34 @@ public final class GameEngine {
     private void checkLevel() {
         if (game.isSwitchLevelRequested()) {
             // Find the new level to switch to
+            if (game.world().currentLevel() == game.world().levels()) {
+                //error no level found
+                System.out.println("Error: No level found");
+            }
             // clear all sprites
+            sprites.clear();
             // change the current level
-            game.world().setCurrentLevel(game.world().currentLevel() + 1);
+            game.world().setCurrentLevel(game.getSwitchLevel());
             // Find the position of the door to reach
+            ArrayList<Door> doors = game.getDoors();
+            boolean found = false;
+            for (Door door : doors) {
+                if (!door.isOpen()) {
+                    found = true;
+                }
             // Set the position of the player
+                if (door.isOpen()) {
+                    player.setPosition(door.getPosition());
+                }
+            }
+            if (!found) {
+                System.out.println("Error: No door found");
+            }
+            game.loadBees();
             // stage.close();
             // initialize();
+            initialize();
+            game.clearSwitchLevel();
         }
     }
 
@@ -208,8 +229,9 @@ public final class GameEngine {
                 player.loseKey();
             }
         }
-        else if (player.isOnOpenedDoor()) {
-            //game.requestSwitchLevel(game.world().currentLevel() + 1);
+        else if (player.isOnOpenedDoor() && player.canEnterDoor()) {
+            game.requestSwitchLevel(game.world().currentLevel() + 1);
+            player.setDoorTimer();
         }
 
     }

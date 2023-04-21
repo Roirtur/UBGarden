@@ -34,6 +34,8 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     private ArrayList<Timer> diseasesTimeSave = new ArrayList<>();
     private boolean isInvincible;
     private Timer inivncibilityTimer;
+    private boolean canEnterDoor = false;
+    private Timer doorTimer;
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -42,6 +44,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         this.energy = game.configuration().playerEnergy();
         this.timer = new Timer(game.configuration().energyRecoverDuration());
         this.inivncibilityTimer = new Timer(game.configuration().playerInvincibilityDuration());
+        this.doorTimer = new Timer(5);
         timer.start();
     }
 
@@ -67,6 +70,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         timer.update(now);
         checkDiseases(now);
         checkInvincibility(now);
+        checkDoorTimer(now);
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
@@ -222,6 +226,22 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
             } else {
                 isInvincible = false;
                 setModified(true);
+            }
+        }
+    }
+
+    public void setDoorTimer() {
+        canEnterDoor = false;
+        doorTimer.start();
+    }
+    public boolean canEnterDoor() { return canEnterDoor; }
+
+    private void checkDoorTimer(long now) {
+        if (!canEnterDoor) {
+            if (doorTimer.isRunning()) {
+                doorTimer.update(now);
+            } else {
+                canEnterDoor = true;
             }
         }
     }
