@@ -1,5 +1,5 @@
 package fr.ubx.poo.ugarden.game;
 
 public enum State {
-    OPENED, CLOSED;
+    OPENED, CLOSED, PREVIOUS, NEXT;
 }

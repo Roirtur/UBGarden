@@ -6,6 +6,7 @@ package fr.ubx.poo.ugarden.engine;
 
 import fr.ubx.poo.ugarden.game.Direction;
 import fr.ubx.poo.ugarden.game.Game;
+import fr.ubx.poo.ugarden.game.State;
 import fr.ubx.poo.ugarden.go.decor.Door;
 import fr.ubx.poo.ugarden.go.personage.Bee;
 import fr.ubx.poo.ugarden.go.personage.Player;
@@ -120,16 +121,19 @@ public final class GameEngine {
             ArrayList<Door> doors = game.getDoors();
             boolean found = false;
             for (Door door : doors) {
-                if (!door.isOpen()) {
+                System.out.println("Door: " + door.getDirection());
+                if (door.getDirection() == State.NEXT) {
                     found = true;
+                    System.out.println("Found door");
                 }
             // Set the position of the player
-                if (door.isOpen()) {
+                if (door.getDirection() == State.PREVIOUS) {
                     player.setPosition(door.getPosition());
+                    System.out.println("Found Player spawn");
                 }
             }
             if (!found) {
-                System.out.println("Error: No door found");
+                System.out.println("Error: No door found so need a princess");
             }
             game.loadBees();
             // stage.close();
@@ -230,7 +234,13 @@ public final class GameEngine {
             }
         }
         else if (player.isOnOpenedDoor() && player.canEnterDoor()) {
-            game.requestSwitchLevel(game.world().currentLevel() + 1);
+            Door door = getDoorCollision();
+            if (door.getDirection() == State.NEXT) {
+                game.requestSwitchLevel(game.world().currentLevel() + 1);
+            }
+            else if (door.getDirection() == State.PREVIOUS) {
+                game.requestSwitchLevel(game.world().currentLevel() - 1);
+            }
             player.setDoorTimer();
         }
 
