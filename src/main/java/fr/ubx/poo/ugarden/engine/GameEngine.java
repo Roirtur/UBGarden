@@ -109,9 +109,14 @@ public final class GameEngine {
     private void checkLevel() {
         if (game.isSwitchLevelRequested()) {
             // Find the new level to switch to
-            if (game.world().currentLevel() == game.world().levels()) {
+            if (game.getSwitchLevel() == game.world().levels() + 1) {
                 //error no level found
                 System.out.println("Error: No level found");
+            }
+            // chose the spawn of the player
+            boolean spawnNext = true;
+            if (game.world().currentLevel() == game.getSwitchLevel() + 1) {
+                spawnNext = false;
             }
             // clear all sprites
             sprites.clear();
@@ -119,21 +124,31 @@ public final class GameEngine {
             game.world().setCurrentLevel(game.getSwitchLevel());
             // Find the position of the door to reach
             ArrayList<Door> doors = game.getDoors();
-            boolean found = false;
+            boolean nextDoorFound = false;
             for (Door door : doors) {
-                System.out.println("Door: " + door.getDirection());
                 if (door.getDirection() == State.NEXT) {
-                    found = true;
-                    System.out.println("Found door");
+                    nextDoorFound = true;
+                    if (!spawnNext) {
+                        player.setPosition(door.getPosition());
+                    }
                 }
             // Set the position of the player
-                if (door.getDirection() == State.PREVIOUS) {
+                if (spawnNext && door.getDirection() == State.PREVIOUS) {
                     player.setPosition(door.getPosition());
-                    System.out.println("Found Player spawn");
                 }
             }
-            if (!found) {
-                System.out.println("Error: No door found so need a princess");
+            if (!game.findPrincess()) {
+                if(!nextDoorFound) {
+                    System.out.println("Error: No door and no princess founded");
+                }
+                if (game.getSwitchLevel() == game.world().levels()) {
+                    for (Door door : doors) {
+                        if (door.getDirection() == State.NEXT) {
+                            // replace the door by a princess
+                            //replace here or change the level on the création in GameLauncher
+                        }
+                    }
+                }
             }
             game.loadBees();
             // stage.close();

@@ -44,7 +44,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         this.energy = game.configuration().playerEnergy();
         this.timer = new Timer(game.configuration().energyRecoverDuration());
         this.inivncibilityTimer = new Timer(game.configuration().playerInvincibilityDuration());
-        this.doorTimer = new Timer(5);
+        this.doorTimer = new Timer(2);
         timer.start();
     }
 
