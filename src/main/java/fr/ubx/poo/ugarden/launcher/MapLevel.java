@@ -61,19 +61,35 @@ public class MapLevel {
         return beePositions;
     }
 
-    public Position getOpenedDoorPosition(int level) {
-        boolean findDoor = false;
-        Position doorPosition = new Position(level, 0, 0);
+
+    public boolean hasEndDoor() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (grid[j][i] == DoorPrevOpened) {
-                    doorPosition = new Position(level, i, j);
-                    findDoor = true;
+                if (grid[j][i] == DoorNextClosed || grid[j][i] == DoorNextOpened) {
+                    return true;
                 }
             }
         }
-        if (!findDoor)
-            throw new RuntimeException("Door not found");
-        return doorPosition;
+        return false;
+    }
+    public boolean hasPrincess() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grid[j][i] == Princess) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void replaceDoorByPrincess() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grid[j][i] == DoorNextClosed || grid[j][i] == DoorNextOpened) {
+                    grid[j][i] = Princess;
+                }
+            }
+        }
     }
 }

@@ -20,6 +20,7 @@ public class Level implements Map {
     private final java.util.Map<Position, Decor> decors = new HashMap<>();
 
     public Level(Game game, int level, MapLevel entities) {
+
         this.level = level;
         this.entities = entities;
         this.width = entities.width();
@@ -75,6 +76,9 @@ public class Level implements Map {
                         break;
                     }
                     case DoorPrevOpened:{
+                        if (level == 1) {
+                            throw new RuntimeException("Can't have " + mapEntity.name() + " on the first level");
+                        }
                         decors.put(position, new Door(position, State.OPENED));
                         break;
                     }

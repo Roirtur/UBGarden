@@ -63,6 +63,8 @@ public class GameLauncher {
         return game;
     }
 
+
+
     public Game loadFile(File file) {
         boolean compression = false;
         int nblevels = 0;
@@ -88,14 +90,6 @@ public class GameLauncher {
                         nblevels = Integer.parseInt(valeur);
                         System.out.println("Nombre de niveaux : " + levels);
                         break;
-                    case "level1":
-                        levels.add(valeur);
-                        System.out.println("Niveau 1 : " + valeur);
-                        break;
-                    case "level2":
-                        levels.add(valeur);
-                        System.out.println("Niveau 2 : " + valeur);
-                        break;
                     case "playerLives":
                         int playerLives = Integer.parseInt(valeur);
                         System.out.println("Vies du joueur : " + playerLives);
@@ -105,7 +99,14 @@ public class GameLauncher {
                         System.out.println("Fréquence de mouvement de l'abeille : " + beeMoveFrequency);
                         break;
                     default:
-                        System.out.println("Variable inconnue : " + variable);
+                        if (variable.startsWith("level")) {
+                            String levelValue = variable.substring(5);
+                            levels.add(valeur);
+                            System.out.println("Niveau " + levelValue + " : " + valeur);
+                            break;
+                        } else {
+                            System.out.println("Variable inconnue : " + variable);
+                        }
                 }
             }
         } catch (IOException ex) {
@@ -145,13 +146,30 @@ public class GameLauncher {
 
         ArrayList<Position>[] beePositions = new ArrayList[nblevels];
         for (int i = 0; i < nblevels; i++) {
+            if (i != nblevels-1 && !levelMap.get(i).hasEndDoor()) {
+                throw new RuntimeException("No door to next level on level " + (i+1));
+            }
+
             beePositions[i] = levelMap.get(i).getBeePositions(i+1);
         }
 
         Game game = new Game(world, configuration, playerPosition, beePositions);
-        for (int i = 0; i < nblevels; i++) {
+        for (int i = 0; i < nblevels-1; i++) {
             world.put(i+1, new Level(game, i+1, levelMap.get(i)));
         }
+
+
+        if (!levelMap.get(nblevels-1).hasPrincess()) {
+            if (!levelMap.get(nblevels-1).hasEndDoor()) {
+                throw new RuntimeException("Couldn't find a way to win");
+            }
+            levelMap.get(nblevels-1).replaceDoorByPrincess();
+        }
+        if (levelMap.get(nblevels-1).hasEndDoor()) {
+            throw new RuntimeException("Last level shouldn't have a door to a next level");
+        }
+        // Last Level
+        world.put(nblevels, new Level(game, nblevels, levelMap.get(nblevels-1)));
         return game;
     }
 
