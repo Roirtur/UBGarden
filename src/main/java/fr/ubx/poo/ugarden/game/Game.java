@@ -66,18 +66,6 @@ public class Game {
             }
         return doors;
     }
-    public boolean findPrincess() {
-        Map grid = world.getGrid();
-        for (int i = 0; i < grid.width(); i++)
-            for (int j = 0; j < grid.height(); j++) {
-                Position position = new Position(world.currentLevel(), i, j);
-                if (grid.get(position) instanceof Princess) {
-                    return true;
-                }
-            }
-        return false;
-    }
-
     public boolean isSwitchLevelRequested() {
         return switchLevelRequested;
     }

@@ -5,6 +5,7 @@
 package fr.ubx.poo.ugarden.engine;
 
 import fr.ubx.poo.ugarden.game.Game;
+import fr.ubx.poo.ugarden.game.WorldLevels;
 import fr.ubx.poo.ugarden.go.personage.Player;
 import fr.ubx.poo.ugarden.view.ImageResource;
 import fr.ubx.poo.ugarden.view.ImageResourceFactory;
@@ -25,12 +26,13 @@ public class StatusBar {
     private final Text energy = new Text();
 
     private final Text diseaseLevel = new Text();
-    private final int gameLevel = 1;
+    private int gameLevel;
     private final DropShadow ds = new DropShadow();
 
 
-    public StatusBar(Group root, int sceneWidth, int sceneHeight) {
+    public StatusBar(Game game, Group root, int sceneWidth, int sceneHeight) {
         // Status bar
+        gameLevel = game.world().currentLevel();
         level.getStyleClass().add("level");
         level.getChildren().add(new ImageView(ImageResourceFactory.getInstance().getDigit(gameLevel)));
 

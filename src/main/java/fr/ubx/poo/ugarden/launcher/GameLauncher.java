@@ -9,6 +9,7 @@ import java.util.Properties;
 public class GameLauncher {
     final char EOL = 'x';
 
+    // Default values
     private int playerLives = 5;
     private int playerInvincibilityDuration = 4;
     private int beeMoveFrequency = 1;
@@ -65,7 +66,7 @@ public class GameLauncher {
         beePositions[0] = levelMap.getBeePositions(world.currentLevel());
 
         Game game = new Game(world, configuration, playerPosition, beePositions);
-        Map level = new Level(game, 1, levelMap);
+        Map level = new Level(1, levelMap);
         world.put(1, level);
         return game;
     }
@@ -98,7 +99,6 @@ public class GameLauncher {
                         System.out.println("Nombre de niveaux : " + levels);
                         break;
                     case "playerLives":
-                        System.out.println("test");
                         playerLives = Integer.parseInt(valeur);
                         break;
                     case "playerInvincibilityDuration":
@@ -175,7 +175,7 @@ public class GameLauncher {
 
         Game game = new Game(world, configuration, playerPosition, beePositions);
         for (int i = 0; i < nblevels-1; i++) {
-            world.put(i+1, new Level(game, i+1, levelMap.get(i)));
+            world.put(i+1, new Level(i+1, levelMap.get(i)));
         }
 
 
@@ -189,7 +189,7 @@ public class GameLauncher {
             throw new RuntimeException("Last level shouldn't have a door to a next level");
         }
         // Last Level
-        world.put(nblevels, new Level(game, nblevels, levelMap.get(nblevels-1)));
+        world.put(nblevels, new Level(nblevels, levelMap.get(nblevels-1)));
         return game;
     }
 

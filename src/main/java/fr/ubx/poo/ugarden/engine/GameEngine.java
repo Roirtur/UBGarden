@@ -64,7 +64,7 @@ public final class GameEngine {
 
         input = new Input(scene);
         root.getChildren().add(layer);
-        statusBar = new StatusBar(root, sceneWidth, sceneHeight);
+        statusBar = new StatusBar(game, root, sceneWidth, sceneHeight);
 
         // Create sprites
 

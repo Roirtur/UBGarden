@@ -15,14 +15,11 @@ public class Level implements Map {
 
     private final int height;
 
-    private final MapLevel entities;
-
     private final java.util.Map<Position, Decor> decors = new HashMap<>();
 
-    public Level(Game game, int level, MapLevel entities) {
+    public Level(int level, MapLevel entities) {
 
         this.level = level;
-        this.entities = entities;
         this.width = entities.width();
         this.height = entities.height();
 
@@ -31,69 +28,54 @@ public class Level implements Map {
                 Position position = new Position(level, i, j);
                 MapEntity mapEntity = entities.get(i, j);
                 switch (mapEntity) {
-                    case Grass:
+                    case Grass, Bee -> {
                         decors.put(position, new Grass(position));
-                        break;
-                    case Tree:
+                    }
+                    case Tree -> {
                         decors.put(position, new Tree(position));
-                        break;
-                    case Heart: {
+                    }
+                    case Heart -> {
                         Decor grass = new Grass(position);
                         grass.setBonus(new Heart(position, grass));
                         decors.put(position, grass);
-                        break;
                     }
-                    case PoisonedApple: {
+                    case PoisonedApple -> {
                         Decor grass = new Grass(position);
                         grass.setBonus(new PoisonedApple(position, grass));
                         decors.put(position, grass);
-                        break;
                     }
-                    case Land: {
+                    case Land -> {
                         decors.put(position, new Land(position));
-                        break;
                     }
-                    case Carrots:{
+                    case Carrots -> {
                         decors.put(position, new Carrots(position));
-                        break;
                     }
-                    case Flowers:{
+                    case Flowers -> {
                         decors.put(position, new Flowers(position));
-                        break;
                     }
-                    case Apple:{
+                    case Apple -> {
                         Decor grass = new Grass(position);
                         grass.setBonus(new Apple(position, grass));
                         decors.put(position, grass);
-                        break;
                     }
-                    case Princess:{
+                    case Princess -> {
                         decors.put(position, new Princess(position));
-                        break;
                     }
-                    case DoorNextClosed, DoorNextOpened:{
+                    case DoorNextClosed, DoorNextOpened -> {
                         decors.put(position, new Door(position, State.CLOSED));
-                        break;
                     }
-                    case DoorPrevOpened:{
+                    case DoorPrevOpened -> {
                         if (level == 1) {
                             throw new RuntimeException("Can't have " + mapEntity.name() + " on the first level");
                         }
                         decors.put(position, new Door(position, State.OPENED));
-                        break;
                     }
-                    case Key: {
+                    case Key -> {
                         Decor grass = new Grass(position);
                         grass.setBonus(new Key(position, grass));
                         decors.put(position, grass);
-                        break;
                     }
-                    case Bee: {
-                        decors.put(position, new Grass(position));
-                        break;
-                    }
-                    default:
-                        throw new RuntimeException("EntityCode " + mapEntity.name() + " not processed");
+                    default -> throw new RuntimeException("EntityCode " + mapEntity.name() + " not processed");
                 }
             }
     }
