@@ -124,10 +124,8 @@ public final class GameEngine {
             game.world().setCurrentLevel(game.getSwitchLevel());
             // Find the position of the door to reach
             ArrayList<Door> doors = game.getDoors();
-            boolean nextDoorFound = false;
             for (Door door : doors) {
                 if (door.getDirection() == State.NEXT) {
-                    nextDoorFound = true;
                     if (!spawnNext) {
                         player.setPosition(door.getPosition());
                     }
@@ -137,22 +135,7 @@ public final class GameEngine {
                     player.setPosition(door.getPosition());
                 }
             }
-            if (!game.findPrincess()) {
-                if(!nextDoorFound) {
-                    System.out.println("Error: No door and no princess founded");
-                }
-                if (game.getSwitchLevel() == game.world().levels()) {
-                    for (Door door : doors) {
-                        if (door.getDirection() == State.NEXT) {
-                            // replace the door by a princess
-                            //replace here or change the level on the création in GameLauncher
-                        }
-                    }
-                }
-            }
             game.loadBees();
-            // stage.close();
-            // initialize();
             initialize();
             game.clearSwitchLevel();
         }

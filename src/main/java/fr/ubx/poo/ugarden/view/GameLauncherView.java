@@ -20,15 +20,14 @@ public class GameLauncherView extends BorderPane {
         // Create menu
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
-        MenuItem loadItem = new MenuItem("Load from file ...");
+        MenuItem loadItem = new MenuItem("Load from file");
         MenuItem defaultItemStart = new MenuItem("Load default start configuration");
         MenuItem defaultItem = new MenuItem("Load default configuration");
-        MenuItem loadItemF = new MenuItem("Load from file");
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+Q"));
         menuFile.getItems().addAll(
-                loadItem, defaultItem, defaultItemStart, new SeparatorMenuItem(),
-                loadItemF, new SeparatorMenuItem(),
+                defaultItem, defaultItemStart, new SeparatorMenuItem(),
+                loadItem, new SeparatorMenuItem(),
                 exitItem);
 
         menuBar.getMenus().addAll(menuFile);
@@ -42,15 +41,6 @@ public class GameLauncherView extends BorderPane {
         scene.getStyleClass().add("message");
         this.setCenter(scene);
 
-        // Load from file
-        loadItem.setOnAction(e -> {
-            File file = fileChooser.showOpenDialog(stage);
-            if (file != null) {
-                // TODO
-                System.err.println("[TODO] Not implemented");
-            }
-        });
-
         defaultItem.setOnAction(e -> {
             Game game = GameLauncher.getInstance().loadDefault(0);
             GameEngine engine = new GameEngine(game, stage);
@@ -63,7 +53,7 @@ public class GameLauncherView extends BorderPane {
             engine.start();
         });
 
-        loadItemF.setOnAction(e -> {
+        loadItem.setOnAction(e -> {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
                 // Chargement depuis un fichier (avec compression)

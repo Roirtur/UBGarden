@@ -168,7 +168,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
 
     private void gainEnergy(int value) {
         int new_value = energy + value;
-        energy = Math.min(new_value, 100);
+        energy = Math.min(new_value, energy);
     }
 
     public void loseLife() {

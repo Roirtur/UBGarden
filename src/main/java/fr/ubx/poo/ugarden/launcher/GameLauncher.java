@@ -9,6 +9,14 @@ import java.util.Properties;
 public class GameLauncher {
     final char EOL = 'x';
 
+    private int playerLives = 5;
+    private int playerInvincibilityDuration = 4;
+    private int beeMoveFrequency = 1;
+    private int playerEnergy = 100;
+    private int energyBoost = 50;
+    private int energyRecoverDuration = 5;
+    private int diseaseDuration = 5;
+
     private static class LoadSingleton {
         static final GameLauncher INSTANCE = new GameLauncher();
     }
@@ -26,22 +34,21 @@ public class GameLauncher {
         return Boolean.parseBoolean(properties.getProperty(name, Boolean.toString(defaultValue)));
     }
 
-    private Configuration getConfiguration(Properties properties) {
+    private Configuration getConfiguration() {
 
-        // Load parameters
-        int playerLives = integerProperty(properties, "playerLives", 5);
-        int playerInvincibilityDuration = integerProperty(properties, "playerInvincibilityDuration", 4);
-        int beeMoveFrequency = integerProperty(properties, "beeMoveFrequency", 1);
-        int playerEnergy = integerProperty(properties, "playerEnergy", 100);
-        int energyBoost = integerProperty(properties, "energyBoost", 50);
-        int energyRecoverDuration = integerProperty(properties, "energyRecoverDuration", 5);
-        int diseaseDuration = integerProperty(properties, "diseaseDuration", 5);
+        System.out.println("Vies du joueur : " + playerLives);
+        System.out.println("Temps d'invincibilité du joueur : " + playerInvincibilityDuration);
+        System.out.println("Fréquence de mouvement de l'abeille : " + beeMoveFrequency);
+        System.out.println("Energie max du joueur : " + playerEnergy);
+        System.out.println("Gain d'energie par pomme : " + energyBoost);
+        System.out.println("Temps pour récuperer 1 d'énergie : " + energyRecoverDuration);
+        System.out.println("Temps de la maladie : " + diseaseDuration);
+
 
         return new Configuration(playerLives, playerEnergy, energyBoost, playerInvincibilityDuration, beeMoveFrequency, energyRecoverDuration, diseaseDuration);
     }
 
     public Game loadDefault(int default_choice) {
-        Properties emptyConfig = new Properties();
         MapLevel levelMap;
         if (default_choice == 1) {
             levelMap = new MapLevelDefaultStart();
@@ -51,7 +58,7 @@ public class GameLauncher {
         Position playerPosition = levelMap.getPlayerPosition();
         if (playerPosition == null)
             throw new RuntimeException("Player not found");
-        Configuration configuration = getConfiguration(emptyConfig);
+        Configuration configuration = getConfiguration();
         WorldLevels world = new WorldLevels(1);
 
         ArrayList<Position>[] beePositions = new ArrayList[1];
@@ -91,12 +98,26 @@ public class GameLauncher {
                         System.out.println("Nombre de niveaux : " + levels);
                         break;
                     case "playerLives":
-                        int playerLives = Integer.parseInt(valeur);
-                        System.out.println("Vies du joueur : " + playerLives);
+                        System.out.println("test");
+                        playerLives = Integer.parseInt(valeur);
+                        break;
+                    case "playerInvincibilityDuration":
+                        playerInvincibilityDuration = Integer.parseInt(valeur);
                         break;
                     case "beeMoveFrequency":
-                        int beeMoveFrequency = Integer.parseInt(valeur);
-                        System.out.println("Fréquence de mouvement de l'abeille : " + beeMoveFrequency);
+                        beeMoveFrequency = Integer.parseInt(valeur);
+                        break;
+                    case "playerEnergy":
+                        playerEnergy = Integer.parseInt(valeur);
+                        break;
+                    case "energyBoost":
+                        energyBoost = Integer.parseInt(valeur);
+                        break;
+                    case "energyRecoverDuration":
+                        energyRecoverDuration = Integer.parseInt(valeur);
+                        break;
+                    case "diseaseDuration":
+                        diseaseDuration = Integer.parseInt(valeur);
                         break;
                     default:
                         if (variable.startsWith("level")) {
@@ -113,7 +134,6 @@ public class GameLauncher {
             ex.printStackTrace();
         }
 
-        Properties emptyConfig = new Properties();
         ArrayList<MapLevel> levelMap = new ArrayList<MapLevel>();
 
         for (String level : levels) {
@@ -141,7 +161,7 @@ public class GameLauncher {
         Position playerPosition = levelMap.get(0).getPlayerPosition();
         if (playerPosition == null)
             throw new RuntimeException("Player not found");
-        Configuration configuration = getConfiguration(emptyConfig);
+        Configuration configuration = getConfiguration();
         WorldLevels world = new WorldLevels(nblevels);
 
         ArrayList<Position>[] beePositions = new ArrayList[nblevels];
