@@ -27,6 +27,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
     private Direction direction;
     private boolean moveRequested = false;
     private int energy;
+    private int energymax;
     private int keys = 0;
     private int diseaseLevel = 1;
     private final Timer timer;
@@ -41,7 +42,8 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
         super(game, position);
         this.direction = Direction.DOWN;
         this.lives = game.configuration().playerLives();
-        this.energy = game.configuration().playerEnergy();
+        this.energymax = game.configuration().playerEnergy();
+        this.energy = this.energymax;
         this.timer = new Timer(game.configuration().energyRecoverDuration());
         this.inivncibilityTimer = new Timer(game.configuration().playerInvincibilityDuration());
         this.doorTimer = new Timer(2);
@@ -168,7 +170,7 @@ public class Player extends GameObject implements Movable, TakeVisitor, WalkVisi
 
     private void gainEnergy(int value) {
         int new_value = energy + value;
-        energy = Math.min(new_value, energy);
+        energy = Math.min(new_value, energymax);
     }
 
     public void loseLife() {
